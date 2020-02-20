@@ -87,10 +87,10 @@ bool List::empty() { //tests if the list is empty or not
   }
 }
 
-Node* getHead() { //returns head node
+Node* List::getHead() { //returns head node
   return head;
 }
 
-Node* getTail() { //returns tail node
+Node* List::getTail() { //returns tail node
   return tail;
 }

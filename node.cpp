@@ -23,7 +23,7 @@ void Node::setBack(Node* newback) {
 }
 
 Node* Node::getNext() {
-  reutrn next;
+  return next;
 }
 
 Node* Node::getFront() {
@@ -52,6 +52,6 @@ bool Node::isBack() {
   }
 }
 
-char* Noe::getOp() {
+char* Node::getOp() {
   return op;
 }
