@@ -9,7 +9,7 @@ using namespace std;
 int main() {
   Function* infixTranslator = new Function();
 
-  cout << "Enter your expression here" << endl;
+  cout << "Enter your expression here:" << endl;
 
   char *input = new char[30];
   cin.getline(input, 30, '\n');
@@ -18,6 +18,7 @@ int main() {
   while (token != NULL) {
     Node* newNode = new Node(token);
     newList->enqueue(newNode);
+    cout << "token: " << token << endl;
     token = strtok(NULL, " ");
   }
   infixTranslator->setQueue(newList);

@@ -1,5 +1,7 @@
 #include <iostream>
 #include "node.h"
+#include "list.h"
+#include "function.h"
 
 Node::Node(char* setOp) {
   next = NULL;

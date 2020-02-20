@@ -1,5 +1,6 @@
 #include "list.h"
 #include "node.h"
+#include "function.h"
 
 List::List() {
   head = NULL;

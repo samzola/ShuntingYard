@@ -22,6 +22,81 @@ void Function::setQueue(List* newqueue) {
 }
 
 void Function::makePostfix() {
+	List* stack = new List();
+	List* operatorStack = new List();
+
+	//run through expressionQueue
+	while (expressionQueue->empty() != true) {
+		char* headOp = expressionQueue->getHead()->getOp();//sets variable headOp eaqual to the op at head
+		if (!isOperator(*headOp)) {//if the first char in the char[] is not a operator then ...
+			Node* newNode = new Node(headOp);//push the head to the stack
+			stack->push(newNode);
+			expressionQueue->dequeue();
+		}
+		else {//if it is an operator
+			if (*headOp == '(') {//if it is a (
+				Node* newNode = new Node(headOp);//push it straight to the operatorStack
+				operatorStack->push(newNode);
+				expressionQueue->dequeue();
+			}
+			else if(*headOp != ')') {//if it is not a end perenthases
+				int pred = precedence(*headOp);//calc precedence of the operator
+				if (operatorStack->peek() != NULL) {//if there is stuff in the operator stack
+					if (pred != 1) {//as long as the prededence is not 1
+						while(operatorStack->peek() != NULL && precedence(*operatorStack->peek()->getOp()) > pred) {//while there is not nothing in the operatorStack and the prededence of the top of the opperator stack is more than the incoming operator...
+							//push the top of the operator stack to the stack
+							Node* newNode = new Node(operatorStack->peek()->getOp());
+							stack->push(newNode);
+							operatorStack->pop();
+						}
+						//push the incoming operator to the stack
+						Node* newNode = new Node(headOp);
+						operatorStack->push(newNode);
+						expressionQueue->dequeue();
+					}
+					else {//if eaqual to 1 print this message
+						cout << "You entered an invalid operator" << endl;
+						return;
+					}
+				}
+				else {
+					//if there is nothing in the operator stack push straight to the stack
+					Node* newNode = new Node(headOp);
+					operatorStack->push(newNode);
+					expressionQueue->dequeue();
+				}
+			}
+			else {//if it is a end perentheses
+				while (*operatorStack->peek()->getOp() != '(') {//while there isnt a ( at the top of the operator stack then...
+					//push the items at the top of the operatior stack to the stack
+					Node* newNode = new Node(operatorStack->peek()->getOp());
+					stack->push(newNode);
+					operatorStack->pop();
+				}
+				//get rid of the ( and )
+				expressionQueue->dequeue();
+				operatorStack->pop();
+			}
+		}
+	}
+	while (operatorStack->empty() != true) {//while the operator stack is not empty
+		//push items from the top of the operator stack to the stack
+		Node* newNode = new Node(operatorStack->peek()->getOp());
+		stack->push(newNode);
+		operatorStack->pop();
+	}
+	Node* current = stack->getHead();//set current to the head of stack
+	List* expressionQueue = new List();//reintialize the list
+	while (0 != current) {//while the current node is not NULL
+		//push the current node to the expressionQueue
+		Node* newNode = new Node(current->getOp());
+		expressionQueue->push(newNode);
+		current = current->getNext();
+	}
+	makeTree(expressionQueue);//make the tree
+}
+
+/*void Function::makePostfix() {
   List* stack = new List();
   List* operatorStack = new List();
 
@@ -83,7 +158,7 @@ void Function::makePostfix() {
       current = current->getNext();
     }
     makeTree(expressionQueue);
-}
+}*/
 
 void Function::makeTree(List* input) {
   List* tree = new List();
