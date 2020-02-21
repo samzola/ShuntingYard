@@ -3,40 +3,40 @@
 #include "list.h"
 #include "function.h"
 
-Node::Node(char* setOp) {
+Node::Node(char* setOp) { //constructor
   next = NULL;
   front = NULL;
   back = NULL;
   op = setOp;
 }
 
-Node::~Node() {}
+Node::~Node() {} //destructor
 
-void Node::setNext(Node* newnext) {
+void Node::setNext(Node* newnext) { //sets next node
   next = newnext;
 }
 
-void Node::setFront(Node* newfront) {
+void Node::setFront(Node* newfront) {  //sets front node
   front = newfront;
 }
 
-void Node::setBack(Node* newback) {
+void Node::setBack(Node* newback) { //sets back node
   back = newback;
 }
 
-Node* Node::getNext() {
+Node* Node::getNext() { //returns next node
   return next;
 }
 
-Node* Node::getFront() {
+Node* Node::getFront() { //returns front node
   return front;
 }
 
-Node* Node::getBack() {
+Node* Node::getBack() { //returns back node
   return back;
 }
 
-bool Node::isFront() {
+bool Node::isFront() { //tests if there is a node in front
   if (front != NULL) {
     return true;
   }
@@ -45,7 +45,7 @@ bool Node::isFront() {
   }
 }
 
-bool Node::isBack() {
+bool Node::isBack() { //tests if there is a node in back
   if (back != NULL) {
     return true;
   }
@@ -54,6 +54,6 @@ bool Node::isBack() {
   }
 }
 
-char* Node::getOp() {
+char* Node::getOp() { //returns operator
   return op;
 }

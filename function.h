@@ -7,19 +7,19 @@
 
 using namespace std;
 
-class Function {
+class Function { //function class
  public:
-  Function();
-  ~Function();
-  List* getQueue();
-  void setQueue(List*);
-  void makePostfix();
-  void makeTree(List*);
-  void infixTool(Node*);
-  void postfixTool(Node*);
-  void prefixTool(Node*);
+  Function(); //constructor
+  ~Function(); //destructor
+  List* getQueue(); //returns queue
+  void setQueue(List*); //sets queue
+  void makePostfix(); //converts input to postfix
+  void makeTree(List*); //makes a binary tree of the input
+  void infixTool(Node*); //sets to infix
+  void postfixTool(Node*); //sets to postfix
+  void prefixTool(Node*); //sets to prefix
  private:
-  bool isOperator(char);
+  bool isOperator(char); //tests if operator
   int precedence(char);
   bool playing;
   List* stack;

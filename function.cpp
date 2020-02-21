@@ -13,16 +13,16 @@ Function::Function() {
 
 Function::~Function() {}
 
-List* Function::getQueue() {
+List* Function::getQueue() { //returns queue
   return expressionQueue;
 }
 
-void Function::setQueue(List* newqueue) {
+void Function::setQueue(List* newqueue) { //sets queue
   expressionQueue = newqueue;
 }
 
-void Function::makePostfix() {
-	List* stack = new List();
+void Function::makePostfix() { //CREDIT: Tejash Panda
+  	List* stack = new List();
 	List* operatorStack = new List();
 
 	//run through expressionQueue
@@ -96,77 +96,13 @@ void Function::makePostfix() {
 	makeTree(expressionQueue);//make the tree
 }
 
-/*void Function::makePostfix() {
-  List* stack = new List();
-  List* operatorStack = new List();
-
-  while (expressionQueue->empty() != true) {
-    char* headOp = expressionQueue->getHead()->getOp();
-    if (!isOperator(*headOp)) {
-      Node* newNode = new Node(headOp);
-      stack->push(newNode);
-      expressionQueue->dequeue();
-    }
-    else {
-      if (*headOp == '(') {
-	Node* newNode = new Node(headOp);
-	operatorStack->push(newNode);
-	expressionQueue->dequeue();
-      }
-      else if (*headOp != ')') {
-	int pred = precedence(*headOp);
-	if (operatorStack->peek() != NULL) {
-	  if (pred != 1) {
-	    while (operatorStack->peek() != NULL && precedence(*operatorStack->peek()->getOp()) > pred) {
-	      Node* newNode = new Node(operatorStack->peek()->getOp());
-	      stack->push(newNode);
-	      operatorStack->pop();
-	    }
-	  }
-	    else {
-	      cout << "Invalid operator" << endl;
-	      return;
-	    }
-	  }
-	  else {
-	    Node* newNode = new Node(headOp);
-	    operatorStack->push(newNode);
-	    expressionQueue->dequeue();
-	  }
-	}
-	else {
-	while (*operatorStack->peek()->getOp() != '(') {
-	  Node* newNode = new Node(operatorStack->peek()->getOp());
-	  stack->push(newNode);
-	  operatorStack->pop();
-	}
-	expressionQueue->dequeue();
-	operatorStack->pop();
-      }
-    }
-  }
-    while (operatorStack->empty() != true) {
-      Node* newNode = new Node(operatorStack->peek()->getOp());
-      stack->push(newNode);
-      operatorStack->pop();
-    }
-    Node* current = stack->getHead();
-    List* expressionQueue = new List();
-    while (0 != current) {
-      Node* newNode = new Node(current->getOp());
-      expressionQueue->push(newNode);
-      current = current->getNext();
-    }
-    makeTree(expressionQueue);
-}*/
-
-void Function::makeTree(List* input) {
+void Function::makeTree(List* input) { //CREDIT: Tejash Panda
   List* tree = new List();
-  while (input->empty() != true) {
-    if (isdigit(*input->peek()->getOp())) {
+  while (input->empty() != true) { //while input isn't empty
+    if (isdigit(*input->peek()->getOp())) { //if it is an operator
       Node* filler = new Node(input->peek()->getOp());
-      tree->push(filler);
-      input->dequeue();
+      tree->push(filler); //add operator to tree
+      input->dequeue(); //remove from input
     }
     else {
       Node* currentNode = new Node(input->peek()->getOp());
@@ -179,20 +115,20 @@ void Function::makeTree(List* input) {
     }
   }
   while (playing == true) {
-    cout << "Do you want the output to be infix, postfix, or prefix?" << endl;
+    cout << "Do you want the output to be infix, postfix, or prefix?" << endl; //ask how user wants output
     char *choice = new char[10];
-    cin.getline(choice, 10, '\n');
-    if (strcmp(choice, "infix") == 0) {
-      infixTool(tree->peek());
+    cin.getline(choice, 10, '\n'); //read in choice
+    if (strcmp(choice, "infix") == 0) { //if they enter infix
+      infixTool(tree->peek()); //print out infix
       cout << endl;
       playing = false;
     }
-    else if (strcmp(choice, "postfix") == 0) {
-      postfixTool(tree->peek());
+    else if (strcmp(choice, "postfix") == 0) { //if they enter postfix
+      postfixTool(tree->peek()); //print out postfix
       playing = false;
     }
-    else if (strcmp(choice, "prefix") == 0) {
-      prefixTool(tree->peek());
+    else if (strcmp(choice, "prefix") == 0) { //if they enter prefix
+      prefixTool(tree->peek()); //print out prefix
       playing = false;
     }
     else {
@@ -201,7 +137,7 @@ void Function::makeTree(List* input) {
   }
 }
 
-void Function::infixTool(Node* binTree) {
+void Function::infixTool(Node* binTree) { //for printing infix
   if (isOperator(*binTree->getOp())) {
     cout << "( ";
   }
@@ -220,27 +156,27 @@ void Function::infixTool(Node* binTree) {
   cout << binTree->getOp() << " ";
 }
 
-void Function::postfixTool(Node* binTree) {
-  if (binTree->isBack()) {
-    postfixTool(binTree->getBack());
+void Function::postfixTool(Node* binTree) { //for printing postfix
+  if (binTree->isBack()) { //if tree has a back
+    postfixTool(binTree->getBack()); //recursively call for back
   }
-  if (binTree->isFront()) {
-    postfixTool(binTree->getFront());
+  if (binTree->isFront()) { //if tree has a front
+    postfixTool(binTree->getFront()); //recursively call for front
   }
-  cout << binTree->getOp() << " ";
+  cout << binTree->getOp() << " "; //print
 }
 
-void Function::prefixTool(Node* binTree) {
+void Function::prefixTool(Node* binTree) { //for printing prefix
   cout << binTree->getOp() << " ";
-  if (binTree->getBack() != NULL) {
-    prefixTool(binTree->getBack());
+  if (binTree->getBack() != NULL) { //if back isnt null
+    prefixTool(binTree->getBack()); //recursively call for back
   }
-  if (binTree->getFront() != NULL) {
-    prefixTool(binTree->getFront());
+  if (binTree->getFront() != NULL) { //if front isnt null
+    prefixTool(binTree->getFront()); //recursively call for front
   }
 }
 
-bool Function::isOperator(char op) {
+bool Function::isOperator(char op) { //determines if it is a valid operator
   switch(op) {
   case '+': return true;
   case '-': return true;
@@ -253,7 +189,7 @@ bool Function::isOperator(char op) {
   }
 }
 
-int Function::precedence(char op) {
+int Function::precedence(char op) { //determines precedence
   switch(op) {
   case '+': return 2;
   case '-': return 2;

@@ -2,12 +2,12 @@
 #include "node.h"
 #include "function.h"
 
-List::List() {
+List::List() { //constructor
   head = NULL;
   tail = NULL;
 }
 
-List::~List() {}
+List::~List() {} //destructor
 
 void List::push(Node* n) { //add as first node
   if (empty() == true) { //if list is empty
